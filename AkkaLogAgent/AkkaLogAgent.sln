@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.Tests", "AkkaLogAgent.Tests\AkkaLogAgent.Tests.csproj", "{7F241A26-3075-4618-B488-8AC000560214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.WinForm", "AkkaLogAgent.WinForm\AkkaLogAgent.WinForm.csproj", "{8808E5FB-D4F6-406E-97E1-890720C85F2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.Services", "AkkaLogAgent.Services\AkkaLogAgent.Services.csproj", "{58F38543-3D64-4260-92E8-97F30DD6D2D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentLogConsumerServices", "AgentLogConsumerServices\AgentLogConsumerServices.csproj", "{7A3995AD-EF53-445D-912D-DCC8124DB4D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F241A26-3075-4618-B488-8AC000560214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F241A26-3075-4618-B488-8AC000560214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F241A26-3075-4618-B488-8AC000560214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F241A26-3075-4618-B488-8AC000560214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8808E5FB-D4F6-406E-97E1-890720C85F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8808E5FB-D4F6-406E-97E1-890720C85F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8808E5FB-D4F6-406E-97E1-890720C85F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8808E5FB-D4F6-406E-97E1-890720C85F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F38543-3D64-4260-92E8-97F30DD6D2D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F38543-3D64-4260-92E8-97F30DD6D2D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F38543-3D64-4260-92E8-97F30DD6D2D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F38543-3D64-4260-92E8-97F30DD6D2D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A3995AD-EF53-445D-912D-DCC8124DB4D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A3995AD-EF53-445D-912D-DCC8124DB4D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A3995AD-EF53-445D-912D-DCC8124DB4D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A3995AD-EF53-445D-912D-DCC8124DB4D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
