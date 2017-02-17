@@ -1,6 +1,7 @@
 ﻿using AkkaLogAgent.Services;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,17 +15,33 @@ namespace AkkaLogAgent.AgentLogConsumerServices
         private Timer Timer { set; get; }
         private Panel IndicatorPanel { set; get; }
         private const string _shorCurToExecute = @"R:\InventoryService\topshelf-install - Shortcut.lnk";
+        private bool DebugMode { set; get; }
+        private RichTextBox CommonAppLogView { set; get; }
+        public List<string> AppLogs { set; get; }
 
-        public WinFormUiAgentLogConsumer(Form form, RichTextBox displayTxt, RichTextBox richTextBox,
-            Panel indicatorPanel)
+        public void AppLog(string message)
         {
+            if (!DebugMode)
+                return;
+            AppLogs.Add(message);
+            AppLogs.Reverse();
+            ThreadHelperClass.SetText(_thisForm, CommonAppLogView, string.Join(Environment.NewLine, AppLogs));
+            AppLogs.Reverse();
+        }
+
+        public WinFormUiAgentLogConsumer(Form form, RichTextBox bulkLogView, RichTextBox lastEventLogView,
+            Panel indicatorPanel, bool debugMode, RichTextBox commonAppLogView)
+        {
+            AppLogs=new List<string>();
+            CommonAppLogView = commonAppLogView;
+            DebugMode = debugMode;
             Timer = new Timer();
-            Log.Debug("Starting " + nameof(WinFormUiAgentLogConsumer) + "...");
+            Log.Debug("Instantiating " + nameof(WinFormUiAgentLogConsumer) + "...");
             MaxRestartCount = 1; //vary this
             TimerInterval = 10000;
             _thisForm = form;
-            DisplayTxt = displayTxt;
-            RichTextBox = richTextBox;
+            DisplayTxt = bulkLogView;
+            RichTextBox = lastEventLogView;
             IndicatorPanel = indicatorPanel;
             Timer.Interval = TimerInterval;
             Timer.Tick += Timer_Tick;
@@ -50,29 +67,32 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             }
             if (RestartAfterCount > MaxRestartCount)
             {
-                //lock (_thislock)
-                //{
                 Restarting = true;
                 const string message = "Max restart counter exceeded, application will now be restarted!!!";
                 Log.Debug(message);
                 ThreadHelperClass.SetBackColor(_thisForm, IndicatorPanel, Color.Red);
                 try
                 {
-                    ExecuteWindowsShortCut(_shorCurToExecute);
+                    if (!DebugMode)
+                    {
+                        ExecuteWindowsShortCut(_shorCurToExecute);
+                    }
                     _justRecovered = true;
                     Log.Debug("Restart executed successfully");
+                    AppLog("Restart executed successfully");
                 }
                 catch (Exception e)
                 {
                     Log.Error(e, "Error trying to execute restart command");
+                    AppLog("Error trying to execute restart command " + e.Message + " - " + e.InnerException?.Message);
                 }
-                //}
             }
             else
             {
                 if (_justRecovered)
                 {
                     Log.Debug("System just restarted. Everything looks good!");
+                    AppLog("System just restarted. Everything looks good!");
                     _justRecovered = false;
                 }
 
@@ -82,8 +102,10 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             RestartAfterCount = 0;
         }
 
-        private static void ExecuteWindowsShortCut(string path)
+        private  void ExecuteWindowsShortCut(string path)
         {
+            var updateMessage = "executing short cut "+ path + " in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            AppLog(updateMessage);
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
             {
@@ -114,6 +136,8 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public void OnEachLogUpdate(string logUpdate)
         {
+            var updateMessage = "On OnEachLogUpdate in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            AppLog(updateMessage);
             if (logUpdate.Contains("Disassociated [akka.tcp://"))
             {
                 RestartAfterCount++;
@@ -126,17 +150,25 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public void OnBatchLogUpdate(string batchLogUpdate)
         {
+            var message = "On BatchLogUpdate in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            AppLog(message);
             ThreadHelperClass.SetText(_thisForm, DisplayTxt, batchLogUpdate);
         }
 
         public void OnStoped()
         {
+            var message = "On Stopped in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            Log.Debug(message);
+            AppLog(message);
             Timer.Enabled = false;
             ThreadHelperClass.SetBackColor(_thisForm, IndicatorPanel, Color.Azure);
         }
 
         public void OnStarted()
         {
+            var message = "On Started in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            Log.Debug(message);
+            AppLog(message);
             Timer.Enabled = true;
             OnTimerTick();
         }

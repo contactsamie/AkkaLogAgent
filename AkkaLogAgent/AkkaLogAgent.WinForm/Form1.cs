@@ -57,17 +57,7 @@ namespace AkkaLogAgent.WinForm
             startToolStripMenuItem.Visible = true;
         }
 
-        private void startToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(FolderPathTxt.Text))
-                return;
-
-            Log.Debug("Starting log monitoring in " + this.GetType().Name + "...");
-            _serviceAgent.StartWatchingFiles(FolderPathTxt.Text, "",
-                new WinFormUiAgentLogConsumer(this, DisplayTxt, richTextBox1, indicatorPannel));
-            stopToolStripMenuItem.Visible = true;
-            startToolStripMenuItem.Visible = false;
-        }
+      
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -78,6 +68,30 @@ namespace AkkaLogAgent.WinForm
             catch (Exception)
             {
             }
+        }
+
+        private void startToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            StartMonitoring(false);
+        }
+
+        private void StartMonitoring(bool debugMode)
+        {
+            if (string.IsNullOrEmpty(FolderPathTxt.Text))
+                return;
+
+            Text = debugMode ? "DEBUG MODE : Akka Log Agent" : "Akka Log Agent";
+
+            Log.Debug("Starting log monitoring in " + this.GetType().Name + "...");
+            _serviceAgent.StartWatchingFiles(FolderPathTxt.Text, RegexTxt.Text,
+                new WinFormUiAgentLogConsumer(this, DisplayTxt, richTextBox1, indicatorPannel, debugMode,richTextBox2));
+            stopToolStripMenuItem.Visible = true;
+            startToolStripMenuItem.Visible = false;
+        }
+
+        private void debugModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StartMonitoring(true);
         }
     }
 }
