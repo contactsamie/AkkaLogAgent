@@ -3,6 +3,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AkkaLogAgent.AgentLogConsumerServices
@@ -65,9 +66,10 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             {
                 return;
             }
-            if (RestartAfterCount > MaxRestartCount)
+            if (RestartAfterCount >= MaxRestartCount)
             {
                 Restarting = true;
+                OnStoped();
                 const string message = "Max restart counter exceeded, application will now be restarted!!!";
                 Log.Debug(message);
                 ThreadHelperClass.SetBackColor(_thisForm, IndicatorPanel, Color.Red);
@@ -86,6 +88,9 @@ namespace AkkaLogAgent.AgentLogConsumerServices
                     Log.Error(e, "Error trying to execute restart command");
                     AppLog("Error trying to execute restart command " + e.Message + " - " + e.InnerException?.Message);
                 }
+                
+               System.Threading.Thread.Sleep(5000);
+                OnStarted();
             }
             else
             {
@@ -138,12 +143,13 @@ namespace AkkaLogAgent.AgentLogConsumerServices
         {
             var updateMessage = "On OnEachLogUpdate in " + nameof(WinFormUiAgentLogConsumer) + "...";
             AppLog(updateMessage);
-            if (logUpdate.Contains("Disassociated [akka.tcp://"))
+            if (logUpdate.Contains("Disassociated [akka.tcp://") && logUpdate.Contains("akka.tcp://LEAPAppActorSystem"))
             {
                 RestartAfterCount++;
                 var message = ">>>>>>>>>>>>>>>> RESTART COUNTER INCREMENTED NOW AT : " + RestartAfterCount;
                 ThreadHelperClass.SetText(_thisForm, RichTextBox, message);
                 Log.Debug(message);
+                AppLog(message);
             }
             ThreadHelperClass.SetText(_thisForm, RichTextBox, logUpdate);
         }
@@ -161,6 +167,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             Log.Debug(message);
             AppLog(message);
             Timer.Enabled = false;
+            RestartAfterCount = 0;
             ThreadHelperClass.SetBackColor(_thisForm, IndicatorPanel, Color.Azure);
         }
 
@@ -170,6 +177,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             Log.Debug(message);
             AppLog(message);
             Timer.Enabled = true;
+            RestartAfterCount = 0;
             OnTimerTick();
         }
     }
