@@ -13,7 +13,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
         private int RestartAfterCount { set; get; }
         private Timer Timer { set; get; }
         private Panel IndicatorPanel { set; get; }
-        private string _shorCurToExecute = @"R:\InventoryService\topshelf-install - Shortcut.lnk";
+        private const string _shorCurToExecute = @"R:\InventoryService\topshelf-install - Shortcut.lnk";
 
         public WinFormUiAgentLogConsumer(Form form, RichTextBox displayTxt, RichTextBox richTextBox,
             Panel indicatorPanel)
