@@ -1,21 +1,22 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
-using AgentLogConsumerServices;
+﻿using AkkaLogAgent.AgentLogConsumerServices;
 using AkkaLogAgent.Services;
+using NLog;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace AkkaLogAgent.WinForm
 {
     public partial class Form1 : Form
     {
-        private readonly ServiceAgent _serviceAgent=new ServiceAgent();
+        private readonly LogWatchServiceAgent _serviceAgent = new LogWatchServiceAgent();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public Form1()
         {
             InitializeComponent();
-           
         }
+
         public void ShowErrorMessage(string message)
         {
             ErrorNotificationTxt.Text = message;
@@ -23,11 +24,15 @@ namespace AkkaLogAgent.WinForm
 
         public void ShowInfoMessage(string message)
         {
-      
         }
 
-     
-     
+        private void SetFolder(string folderPath)
+        {
+            Log.Debug("Seting folder " + folderPath + "...");
+            FolderPathTxt.Text = folderPath;
+            var files = Directory.GetFiles(folderPath);
+            DisplayTxt.Text = string.Join(Environment.NewLine, files);
+        }
 
         private void selectPathToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -35,9 +40,7 @@ namespace AkkaLogAgent.WinForm
             {
                 if (fbd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    FolderPathTxt.Text = fbd.SelectedPath;
-                    var files = Directory.GetFiles(fbd.SelectedPath);
-                    DisplayTxt.Text = string.Join(Environment.NewLine, files);
+                    SetFolder(fbd.SelectedPath);
                 }
                 else
                 {
@@ -48,21 +51,33 @@ namespace AkkaLogAgent.WinForm
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Log.Debug("Stoppinging log monitoring in " + this.GetType().Name + "...");
             _serviceAgent.StopWatchingFiles();
             stopToolStripMenuItem.Visible = false;
-            startToolStripMenuItem.Visible =true ;
-         
+            startToolStripMenuItem.Visible = true;
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(FolderPathTxt.Text))
+            if (string.IsNullOrEmpty(FolderPathTxt.Text))
                 return;
 
-            _serviceAgent.StartWatchingFiles(FolderPathTxt.Text,"", new WinFormUiAgentLogConsumer(this, DisplayTxt, richTextBox1));
+            Log.Debug("Starting log monitoring in " + this.GetType().Name + "...");
+            _serviceAgent.StartWatchingFiles(FolderPathTxt.Text, "",
+                new WinFormUiAgentLogConsumer(this, DisplayTxt, richTextBox1, indicatorPannel));
             stopToolStripMenuItem.Visible = true;
             startToolStripMenuItem.Visible = false;
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                SetFolder(@"D:\Logs");
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
-   
 }

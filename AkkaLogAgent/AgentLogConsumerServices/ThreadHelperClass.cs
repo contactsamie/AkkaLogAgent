@@ -1,24 +1,22 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
-namespace AgentLogConsumerServices
+namespace AkkaLogAgent.AgentLogConsumerServices
 {
     public static class ThreadHelperClass
     {
-        delegate void SetTextCallback(Form f, Control ctrl, string text);
-        /// <summary>
-        /// Set text property of various controls
-        /// </summary>
-        /// <param name="form">The calling form</param>
-        /// <param name="ctrl"></param>
-        /// <param name="text"></param>
+        private delegate void SetTextCallback(Form f, Control ctrl, string text);
+
+        private delegate void SetBackColorCallback(Form f, Control ctrl, Color color);
+
         public static void SetText(Form form, Control ctrl, string text)
         {
-            // InvokeRequired required compares the thread ID of the 
-            // calling thread to the thread ID of the creating thread. 
-            // If these threads are different, it returns true. 
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
             if (ctrl.InvokeRequired)
             {
-                SetTextCallback d = new SetTextCallback(SetText);
+                var d = new SetTextCallback(SetText);
                 form.Invoke(d, new object[] { form, ctrl, text });
             }
             else
@@ -27,6 +25,17 @@ namespace AgentLogConsumerServices
             }
         }
 
-     
+        public static void SetBackColor(Form form, Control ctrl, Color color)
+        {
+            if (ctrl.InvokeRequired)
+            {
+                var d = new SetBackColorCallback(SetBackColor);
+                form.Invoke(d, new object[] { form, ctrl, color });
+            }
+            else
+            {
+                ctrl.BackColor = color;
+            }
+        }
     }
 }

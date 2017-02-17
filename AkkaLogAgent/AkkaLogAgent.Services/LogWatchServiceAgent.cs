@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AkkaLogAgent.Services
 {
-    public class ServiceAgent
+    public class LogWatchServiceAgent
     {
         private readonly FileSystemWatcher _watcher = new FileSystemWatcher();
 
@@ -15,6 +15,10 @@ namespace AkkaLogAgent.Services
         public void StopWatchingFiles()
         {
             _watcher.EnableRaisingEvents = false;
+            foreach (var agentLogConsumer in Consumers)
+            {
+                agentLogConsumer.OnStoped();
+            }
         }
 
         public void StartWatchingFiles(string path, string fileFilter, params IAgentLogConsumer[] consumers)
@@ -29,6 +33,10 @@ namespace AkkaLogAgent.Services
             _watcher.Renamed += OnChanged;
             _watcher.IncludeSubdirectories = true;
             _watcher.EnableRaisingEvents = true;
+            foreach (var agentLogConsumer in Consumers)
+            {
+                agentLogConsumer.OnStarted();
+            }
         }
 
         private Dictionary<string, int> ReadLinesCount { set; get; }
@@ -78,15 +86,21 @@ namespace AkkaLogAgent.Services
             }
         }
 
-        private void PushNotification(List<string> lastMessage)
+        private void PushNotification(List<string> message)
         {
-            var data = string.Join(Environment.NewLine, lastMessage);
-
+            message.Reverse();
+            var data = string.Join(Environment.NewLine, message);
             Consumers = Consumers ?? new List<IAgentLogConsumer>();
+            message.Reverse();
             foreach (var agentLogConsumer in Consumers)
             {
                 agentLogConsumer?.OnBatchLogUpdate(data);
-                lastMessage.ForEach(x => agentLogConsumer?.OnEachLogUpdate(x));
+                message.ForEach(x =>
+                    {
+                        if (string.IsNullOrEmpty(x)) return;
+                        agentLogConsumer?.OnEachLogUpdate(x);
+                    }
+                );
             }
         }
     }

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.WinForm", "Akk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.Services", "AkkaLogAgent.Services\AkkaLogAgent.Services.csproj", "{58F38543-3D64-4260-92E8-97F30DD6D2D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentLogConsumerServices", "AgentLogConsumerServices\AgentLogConsumerServices.csproj", "{7A3995AD-EF53-445D-912D-DCC8124DB4D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.AgentLogConsumerServices", "AgentLogConsumerServices\AkkaLogAgent.AgentLogConsumerServices.csproj", "{7A3995AD-EF53-445D-912D-DCC8124DB4D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
