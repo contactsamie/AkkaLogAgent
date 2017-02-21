@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AkkaLogAgent.DefaultLogFileHandler
 {
@@ -37,8 +38,12 @@ namespace AkkaLogAgent.DefaultLogFileHandler
             ReadLinesCount = new Dictionary<string, int>();
         }
 
-        public void HandleFileChangeEvent(List<IAgentLogConsumer> consumers, string path)
+        public void HandleFileChangeEvent(List<IAgentLogConsumer> consumers, string path, int currentRetryCount = 0)
         {
+            if (currentRetryCount > 3)
+            {
+                Log.Debug("Unable to access file after few trials : " + path);
+            }
             try
             {
                 InitializeFileTrackingObjects(path);
@@ -61,7 +66,10 @@ namespace AkkaLogAgent.DefaultLogFileHandler
             }
             catch (Exception ex)
             {
-                Log.Debug(ex, "Error occured while handling file change event : " + path);
+                Log.Debug(ex, "Error occured while handling file change event. I will try again : " + path);
+                currentRetryCount++;
+                System.Threading.Thread.Sleep(1000);
+                HandleFileChangeEvent(consumers, path, currentRetryCount);
             }
         }
 

@@ -11,9 +11,11 @@ namespace AkkaLogAgent.AkkaLogFileHandler
             throw new NotImplementedException();
         }
 
-        public void HandleFileChangeEvent(List<IAgentLogConsumer> consumers, string path)
+        public void HandleFileChangeEvent(List<IAgentLogConsumer> consumers, string path, int currentRetryCount = 0)
         {
             throw new NotImplementedException();
         }
+
+    
     }
 }

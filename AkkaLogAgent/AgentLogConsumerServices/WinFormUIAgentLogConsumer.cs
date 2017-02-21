@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace AkkaLogAgent.AgentLogConsumerServices
 {
-    public class WinFormUiAgentLogConsumer : IAgentLogConsumer
+    public class AgentLogConsumer : IAgentLogConsumer
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private readonly Form _thisForm;
         private int RestartAfterCount { set; get; }
         private Timer Timer { set; get; }
         private Panel IndicatorPanel { set; get; }
-        private const string _shorCurToExecute = @"R:\InventoryService\topshelf-install - Shortcut.lnk";
+        private const string ShorCutToExecute = @"R:\InventoryService\topshelf-install - Shortcut.lnk";
         private bool DebugMode { set; get; }
         private RichTextBox CommonAppLogView { set; get; }
         public List<string> AppLogs { set; get; }
@@ -29,29 +29,27 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             AppLogs.Reverse();
         }
 
-        public WinFormUiAgentLogConsumer( Form form = null, RichTextBox bulkLogView = null, RichTextBox lastEventLogView = null,
+        public AgentLogConsumer(Form form = null, RichTextBox bulkLogView = null, RichTextBox lastEventLogView = null,
             Panel indicatorPanel = null, RichTextBox commonAppLogView = null)
         {
             AppLogs = new List<string>();
             CommonAppLogView = commonAppLogView;
-      
+
             Timer = new Timer();
-            Log.Debug("Instantiating " + nameof(WinFormUiAgentLogConsumer) + "...");
+            Log.Debug("Instantiating " + nameof(AgentLogConsumer) + "...");
             MaxRestartCount = 1; //vary this
-          
+
             _thisForm = form;
             DisplayTxt = bulkLogView;
             RichTextBox = lastEventLogView;
             IndicatorPanel = indicatorPanel;
-          
         }
 
         public void Start(bool debugMode)
         {
             DebugMode = debugMode;
-
-  TimerInterval = 10000;
-  Timer.Interval = TimerInterval;
+            TimerInterval = 10000;
+            Timer.Interval = TimerInterval;
             Timer.Tick += Timer_Tick;
             OnStarted();
         }
@@ -84,7 +82,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
                 {
                     if (!DebugMode)
                     {
-                        ExecuteWindowsShortCut(_shorCurToExecute);
+                        ExecuteWindowsShortCut(ShorCutToExecute);
                     }
                     _justRecovered = true;
                     Log.Debug("Restart executed successfully");
@@ -116,7 +114,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         private void ExecuteWindowsShortCut(string path)
         {
-            var updateMessage = "executing short cut " + path + " in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            var updateMessage = "executing short cut " + path + " in " + nameof(AgentLogConsumer) + "...";
             AppLog(updateMessage);
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
@@ -148,7 +146,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public void OnEachLogUpdate(string logUpdate)
         {
-            var updateMessage = "On OnEachLogUpdate in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            var updateMessage = "On OnEachLogUpdate in " + nameof(AgentLogConsumer) + "...";
             AppLog(updateMessage);
             if (logUpdate.Contains("Disassociated [akka.tcp://") && logUpdate.Contains("akka.tcp://LEAPAppActorSystem"))
             {
@@ -163,14 +161,14 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public void OnBatchLogUpdate(string batchLogUpdate)
         {
-            var message = "On BatchLogUpdate in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            var message = "On BatchLogUpdate in " + nameof(AgentLogConsumer) + "...";
             AppLog(message);
             ThreadHelperClass.SetText(_thisForm, DisplayTxt, batchLogUpdate);
         }
 
         public void OnStoped()
         {
-            var message = "On Stopped in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            var message = "On Stopped in " + nameof(AgentLogConsumer) + "...";
             Log.Debug(message);
             AppLog(message);
             Timer.Enabled = false;
@@ -180,7 +178,7 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public void OnStarted()
         {
-            var message = "On Started in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            var message = "On Started in " + nameof(AgentLogConsumer) + "...";
             Log.Debug(message);
             AppLog(message);
             Timer.Enabled = true;

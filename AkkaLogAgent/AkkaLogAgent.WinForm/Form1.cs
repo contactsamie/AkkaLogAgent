@@ -80,7 +80,7 @@ namespace AkkaLogAgent.WinForm
             Text = debugMode ? "DEBUG MODE : Akka Log Agent" : "Akka Log Agent";
 
             Log.Debug("Starting log monitoring in " + this.GetType().Name + "...");
-            AkkaLogAgentUi.StartMonitoring(debugMode, FolderPathTxt.Text, RegexTxt.Text, new WinFormUiAgentLogConsumer( this, DisplayTxt, richTextBox1, indicatorPannel, richTextBox2));
+            AkkaLogAgentUi.StartMonitoring(debugMode, FolderPathTxt.Text, RegexTxt.Text, new AgentLogConsumer( this, DisplayTxt, richTextBox1, indicatorPannel, richTextBox2));
             stopToolStripMenuItem.Visible = true;
             startToolStripMenuItem.Visible = false;
         }

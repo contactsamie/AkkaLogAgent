@@ -6,6 +6,6 @@ namespace AkkaLogAgent.Common
     {
         void Reset();
 
-        void HandleFileChangeEvent(List<IAgentLogConsumer> consumers, string path);
+        void HandleFileChangeEvent(List<IAgentLogConsumer> consumers, string path, int currentRetryCount = 0);
     }
 }

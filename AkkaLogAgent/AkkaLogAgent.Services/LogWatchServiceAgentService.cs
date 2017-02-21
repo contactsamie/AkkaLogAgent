@@ -1,8 +1,10 @@
-﻿using AkkaLogAgent.Common;
+﻿using System;
+using AkkaLogAgent.Common;
 using NLog;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AkkaLogAgent.Services
 {
@@ -50,8 +52,8 @@ namespace AkkaLogAgent.Services
         private void OnChanged(object source, FileSystemEventArgs e)
         {
             var path = e.FullPath;
-
             LogFileUpdateHandler.HandleFileChangeEvent(Consumers, path);
+     
         }
     }
 }

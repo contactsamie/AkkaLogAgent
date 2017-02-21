@@ -16,7 +16,7 @@ namespace AkkaLogAgent.ServiceDeployment
 
         public void Start()
         {
-            _deployedServiceAkkaLogAgentUi.StartMonitoring(false, @"D:\Logs", "InventoryService*.log", new WinFormUiAgentLogConsumer());
+            _deployedServiceAkkaLogAgentUi.StartMonitoring(true, @"D:\Logs", "InventoryService*.log", new AgentLogConsumer());
         }
 
         public void Stop()
