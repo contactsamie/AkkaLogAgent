@@ -1,9 +1,8 @@
-﻿using AkkaLogAgent.Services;
+﻿using AkkaLogAgent.Common;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AkkaLogAgent.AgentLogConsumerServices
@@ -30,21 +29,29 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             AppLogs.Reverse();
         }
 
-        public WinFormUiAgentLogConsumer(Form form, RichTextBox bulkLogView, RichTextBox lastEventLogView,
-            Panel indicatorPanel, bool debugMode, RichTextBox commonAppLogView)
+        public WinFormUiAgentLogConsumer( Form form = null, RichTextBox bulkLogView = null, RichTextBox lastEventLogView = null,
+            Panel indicatorPanel = null, RichTextBox commonAppLogView = null)
         {
-            AppLogs=new List<string>();
+            AppLogs = new List<string>();
             CommonAppLogView = commonAppLogView;
-            DebugMode = debugMode;
+      
             Timer = new Timer();
             Log.Debug("Instantiating " + nameof(WinFormUiAgentLogConsumer) + "...");
             MaxRestartCount = 1; //vary this
-            TimerInterval = 10000;
+          
             _thisForm = form;
             DisplayTxt = bulkLogView;
             RichTextBox = lastEventLogView;
             IndicatorPanel = indicatorPanel;
-            Timer.Interval = TimerInterval;
+          
+        }
+
+        public void Start(bool debugMode)
+        {
+            DebugMode = debugMode;
+
+  TimerInterval = 10000;
+  Timer.Interval = TimerInterval;
             Timer.Tick += Timer_Tick;
             OnStarted();
         }
@@ -88,8 +95,8 @@ namespace AkkaLogAgent.AgentLogConsumerServices
                     Log.Error(e, "Error trying to execute restart command");
                     AppLog("Error trying to execute restart command " + e.Message + " - " + e.InnerException?.Message);
                 }
-                
-               System.Threading.Thread.Sleep(5000);
+
+                System.Threading.Thread.Sleep(5000);
                 OnStarted();
             }
             else
@@ -107,9 +114,9 @@ namespace AkkaLogAgent.AgentLogConsumerServices
             RestartAfterCount = 0;
         }
 
-        private  void ExecuteWindowsShortCut(string path)
+        private void ExecuteWindowsShortCut(string path)
         {
-            var updateMessage = "executing short cut "+ path + " in " + nameof(WinFormUiAgentLogConsumer) + "...";
+            var updateMessage = "executing short cut " + path + " in " + nameof(WinFormUiAgentLogConsumer) + "...";
             AppLog(updateMessage);
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo

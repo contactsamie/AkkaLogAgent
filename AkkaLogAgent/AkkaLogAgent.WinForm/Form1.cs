@@ -1,4 +1,6 @@
 ﻿using AkkaLogAgent.AgentLogConsumerServices;
+using AkkaLogAgent.Common;
+using AkkaLogAgent.DefaultLogFileHandler;
 using AkkaLogAgent.Services;
 using NLog;
 using System;
@@ -9,65 +11,60 @@ namespace AkkaLogAgent.WinForm
 {
     public partial class Form1 : Form
     {
-        private readonly LogWatchServiceAgent _serviceAgent = new LogWatchServiceAgent();
+        private readonly LogWatchServiceAgentService _serviceAgent = new LogWatchServiceAgentService(new DefaultLogFileUpdateHandler());
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private IAkkaLogAgentUI AkkaLogAgentUi { set; get; }
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        public void ShowErrorMessage(string message)
-        {
-            ErrorNotificationTxt.Text = message;
-        }
-
-        public void ShowInfoMessage(string message)
-        {
-        }
-
-        private void SetFolder(string folderPath)
-        {
-            Log.Debug("Seting folder " + folderPath + "...");
-            FolderPathTxt.Text = folderPath;
-            var files = Directory.GetFiles(folderPath);
-            DisplayTxt.Text = string.Join(Environment.NewLine, files);
+            AkkaLogAgentUi = new WinFormAkkaLogAgentUI(ErrorNotificationTxt, DisplayTxt, FolderPathTxt, RegexTxt, _serviceAgent, stopToolStripMenuItem, startToolStripMenuItem, this);
         }
 
         private void selectPathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
-            {
-                if (fbd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    SetFolder(fbd.SelectedPath);
-                }
-                else
-                {
-                    ShowErrorMessage("no folder chosen!!");
-                }
-            }
+            SelectFolderPath();
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Log.Debug("Stoppinging log monitoring in " + this.GetType().Name + "...");
-            _serviceAgent.StopWatchingFiles();
-            stopToolStripMenuItem.Visible = false;
-            startToolStripMenuItem.Visible = true;
+            AkkaLogAgentUi.StopMonitoring();
         }
-
-      
 
         private void Form1_Load(object sender, EventArgs e)
         {
             try
             {
-                SetFolder(@"D:\Logs");
+                SelectFolderPath(@"D:\Logs");
             }
             catch (Exception)
             {
             }
+        }
+
+        public void SelectFolderPath(string folderPath = null)
+        {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    if (fbd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        folderPath = fbd.SelectedPath;
+                    }
+                    else
+                    {
+                        ErrorNotificationTxt.Text = "no folder chosen!!";
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(folderPath)) return;
+
+            Log.Debug("Seting folder " + folderPath + "...");
+            FolderPathTxt.Text = folderPath;
+            var files = Directory.GetFiles(folderPath);
+            DisplayTxt.Text = string.Join(Environment.NewLine, files);
         }
 
         private void startToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -83,8 +80,7 @@ namespace AkkaLogAgent.WinForm
             Text = debugMode ? "DEBUG MODE : Akka Log Agent" : "Akka Log Agent";
 
             Log.Debug("Starting log monitoring in " + this.GetType().Name + "...");
-            _serviceAgent.StartWatchingFiles(FolderPathTxt.Text, RegexTxt.Text,
-                new WinFormUiAgentLogConsumer(this, DisplayTxt, richTextBox1, indicatorPannel, debugMode,richTextBox2));
+            AkkaLogAgentUi.StartMonitoring(debugMode, FolderPathTxt.Text, RegexTxt.Text, new WinFormUiAgentLogConsumer( this, DisplayTxt, richTextBox1, indicatorPannel, richTextBox2));
             stopToolStripMenuItem.Visible = true;
             startToolStripMenuItem.Visible = false;
         }

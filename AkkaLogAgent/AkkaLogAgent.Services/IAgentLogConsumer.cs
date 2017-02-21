@@ -1,13 +1,13 @@
-﻿namespace AkkaLogAgent.Services
-{
-    public interface IAgentLogConsumer
-    {
-        void OnEachLogUpdate(string logUpdate);
+﻿//namespace AkkaLogAgent.Services
+//{
+//    public interface IAgentLogConsumer
+//    {
+//        void OnEachLogUpdate(string logUpdate);
 
-        void OnBatchLogUpdate(string batchLogUpdate);
+//        void OnBatchLogUpdate(string batchLogUpdate);
 
-        void OnStoped();
+//        void OnStoped();
 
-        void OnStarted();
-    }
-}
+//        void OnStarted();
+//    }
+//}

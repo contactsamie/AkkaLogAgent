@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AkkaLogAgent.ServiceDeployment")]
+[assembly: AssemblyTitle("AkkaLogAgent.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AkkaLogAgent.ServiceDeployment")]
+[assembly: AssemblyProduct("AkkaLogAgent.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e80f99a7-bb82-4197-b048-b83f831cd95c")]
+[assembly: Guid("a3674791-7065-4a88-8b95-1fedd4bcf58d")]
 
 // Version information for an assembly consists of the following four values:
 //

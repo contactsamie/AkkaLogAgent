@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.AgentLogConsum
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.ServiceDeployment", "AkkaLogAgent.ServiceDeployment\AkkaLogAgent.ServiceDeployment.csproj", "{E80F99A7-BB82-4197-B048-B83F831CD95C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.Common", "AkkaLogAgent.Common\AkkaLogAgent.Common.csproj", "{A3674791-7065-4A88-8B95-1FEDD4BCF58D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.DefaultLogFileHandler", "AkkaLogAgent.DefaultLogFileHandler\AkkaLogAgent.DefaultLogFileHandler.csproj", "{8C97EA0B-5F26-46DD-9846-4A9A25F30ECD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.AkkaLogFileHandler", "AkkaLogAgent.AkkaLogFileHandler\AkkaLogAgent.AkkaLogFileHandler.csproj", "{7F21DA8B-76D4-47A6-ACB2-E972D0943514}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +45,18 @@ Global
 		{E80F99A7-BB82-4197-B048-B83F831CD95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E80F99A7-BB82-4197-B048-B83F831CD95C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E80F99A7-BB82-4197-B048-B83F831CD95C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3674791-7065-4A88-8B95-1FEDD4BCF58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3674791-7065-4A88-8B95-1FEDD4BCF58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3674791-7065-4A88-8B95-1FEDD4BCF58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3674791-7065-4A88-8B95-1FEDD4BCF58D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C97EA0B-5F26-46DD-9846-4A9A25F30ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C97EA0B-5F26-46DD-9846-4A9A25F30ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C97EA0B-5F26-46DD-9846-4A9A25F30ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C97EA0B-5F26-46DD-9846-4A9A25F30ECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F21DA8B-76D4-47A6-ACB2-E972D0943514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F21DA8B-76D4-47A6-ACB2-E972D0943514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F21DA8B-76D4-47A6-ACB2-E972D0943514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F21DA8B-76D4-47A6-ACB2-E972D0943514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

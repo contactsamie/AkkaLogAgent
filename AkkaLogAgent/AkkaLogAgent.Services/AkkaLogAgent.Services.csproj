@@ -45,11 +45,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAgentLogConsumer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LogWatchServiceAgent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LogWatchServiceAgentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AkkaLogAgent.Common\AkkaLogAgent.Common.csproj">
+      <Project>{A3674791-7065-4A88-8B95-1FEDD4BCF58D}</Project>
+      <Name>AkkaLogAgent.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

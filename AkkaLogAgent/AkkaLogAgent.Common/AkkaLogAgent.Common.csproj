@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A3995AD-EF53-445D-912D-DCC8124DB4D5}</ProjectGuid>
+    <ProjectGuid>{A3674791-7065-4A88-8B95-1FEDD4BCF58D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AkkaLogAgent.AgentLogConsumerServices</RootNamespace>
-    <AssemblyName>AkkaLogAgent.AgentLogConsumerServices</AssemblyName>
+    <RootNamespace>AkkaLogAgent.Common</RootNamespace>
+    <AssemblyName>AkkaLogAgent.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,14 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.2\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,25 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAgentLogConsumer.cs" />
+    <Compile Include="IAkkaLogAgentUI.cs" />
+    <Compile Include="ILogFileUpdateHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThreadHelperClass.cs" />
-    <Compile Include="WinFormUIAgentLogConsumer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AkkaLogAgent.Common\AkkaLogAgent.Common.csproj">
-      <Project>{A3674791-7065-4A88-8B95-1FEDD4BCF58D}</Project>
-      <Name>AkkaLogAgent.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AkkaLogAgent.Services\AkkaLogAgent.Services.csproj">
-      <Project>{58F38543-3D64-4260-92E8-97F30DD6D2D9}</Project>
-      <Name>AkkaLogAgent.Services</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="nlog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

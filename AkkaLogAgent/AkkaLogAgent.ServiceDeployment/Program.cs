@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Topshelf;
+﻿using Topshelf;
 
 namespace AkkaLogAgent.ServiceDeployment
 {
-   public class Program
+    public class Program
     {
-      public  static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            HostFactory.Run(x =>                                 //1
+            HostFactory.Run(x =>
             {
-                x.Service<AkkaLogAgentServiceApplication>(s =>                        //2
+                x.Service<AkkaLogAgentServiceApplication>(s =>
                 {
-                    s.ConstructUsing(name => new AkkaLogAgentServiceApplication());     //3
-                    s.WhenStarted(tc => tc.Start());              //4
-                    s.WhenStopped(tc => tc.Stop());               //5
+                    s.ConstructUsing(name => new AkkaLogAgentServiceApplication());
+                    s.WhenStarted(tc => tc.Start());
+                    s.WhenStopped(tc => tc.Stop());
                 });
-                x.RunAsLocalSystem();                            //6
+                x.RunAsLocalSystem();
                 x.UseNLog();
-                x.SetDescription("AkkaLogAgent Service");        //7
-                x.SetDisplayName("AkkaLogAgent Service");                       //8
-                x.SetServiceName("AkkaLogAgentService");                   //9
+                x.SetDescription("AkkaLogAgent Service");
+                x.SetDisplayName("AkkaLogAgent Service");
+                x.SetServiceName("AkkaLogAgentService");
             });
         }
     }

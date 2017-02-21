@@ -11,6 +11,8 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public static void SetText(Form form, Control ctrl, string text)
         {
+            if (form == null) return;
+            if (ctrl == null) return;
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
@@ -27,6 +29,9 @@ namespace AkkaLogAgent.AgentLogConsumerServices
 
         public static void SetBackColor(Form form, Control ctrl, Color color)
         {
+            if (form == null) return;
+            if (ctrl == null) return;
+
             if (ctrl.InvokeRequired)
             {
                 var d = new SetBackColorCallback(SetBackColor);

@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AkkaLogAgentServiceApplication.cs" />
+    <Compile Include="DeployedServiceAkkaLogAgentUI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +65,24 @@
     <None Include="App.config" />
     <None Include="nlog.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgentLogConsumerServices\AkkaLogAgent.AgentLogConsumerServices.csproj">
+      <Project>{7A3995AD-EF53-445D-912D-DCC8124DB4D5}</Project>
+      <Name>AkkaLogAgent.AgentLogConsumerServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AkkaLogAgent.Common\AkkaLogAgent.Common.csproj">
+      <Project>{A3674791-7065-4A88-8B95-1FEDD4BCF58D}</Project>
+      <Name>AkkaLogAgent.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AkkaLogAgent.DefaultLogFileHandler\AkkaLogAgent.DefaultLogFileHandler.csproj">
+      <Project>{8C97EA0B-5F26-46DD-9846-4A9A25F30ECD}</Project>
+      <Name>AkkaLogAgent.DefaultLogFileHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AkkaLogAgent.Services\AkkaLogAgent.Services.csproj">
+      <Project>{58F38543-3D64-4260-92E8-97F30DD6D2D9}</Project>
+      <Name>AkkaLogAgent.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
