@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{45A7D075-F6C2-4C60-9C3F-D12154260BFC}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.Tests", "AkkaLogAgent.Tests\AkkaLogAgent.Tests.csproj", "{7F241A26-3075-4618-B488-8AC000560214}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaLogAgent.WinForm", "AkkaLogAgent.WinForm\AkkaLogAgent.WinForm.csproj", "{8808E5FB-D4F6-406E-97E1-890720C85F2D}"
